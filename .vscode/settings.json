@@ -1,0 +1,9 @@
+{
+  "editor.tabSize": 2,
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "[go]": {
+    "editor.defaultFormatter": "golang.go"
+  }
+}
