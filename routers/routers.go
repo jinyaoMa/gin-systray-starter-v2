@@ -26,7 +26,7 @@ func init() {
 	SetConfig(DefaultConfig())
 }
 
-func SetConfig(config Config) {
+func SetConfig(config *Config) {
 	manager := &autocert.Manager{
 		Prompt: autocert.AcceptTOS,
 		Cache:  autocert.DirCache(config.CertDirCache),
@@ -49,32 +49,35 @@ func SetConfig(config Config) {
 	}
 }
 
-func Start(callback func()) {
+func Start(withSwag bool) bool {
 	go startHttpServer()
-	go startHttpsServer(callback)
+	go startHttpsServer()
+	return true
 }
 
-func StartWithLoop() {
+func StartWithLoop(withSwag bool) bool {
+	if withSwag {
+	}
 	go startHttpServer()
-	startHttpsServer(nil)
+	return startHttpsServer() == nil
 }
 
-func Stop(callback func()) {
+func Stop() {
 	stopHttpServer()
-	stopHttpsServer(callback)
+	stopHttpsServer()
 }
 
-func startHttpsServer(callback func()) (err error) {
+func startHttpsServer() (err error) {
 	err = httpsServer.ListenAndServeTLS("", "")
 	if err != nil && err != http.ErrServerClosed {
 		log.Fatalf("listen: %s\n", err)
 		return
 	}
-	callback()
+	log.Println("Https Server starting!")
 	return nil
 }
 
-func stopHttpsServer(callback func()) (err error) {
+func stopHttpsServer() (err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -85,7 +88,6 @@ func stopHttpsServer(callback func()) (err error) {
 	}
 
 	log.Println("Https Server exiting!")
-	callback()
 	return nil
 }
 
@@ -95,6 +97,7 @@ func startHttpServer() (err error) {
 		log.Fatalf("listen: %s\n", err)
 		return
 	}
+	log.Println("Http Server starting!")
 	return nil
 }
 

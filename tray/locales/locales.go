@@ -1,6 +1,9 @@
 package locales
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 type Dictionary struct {
 	Title           Text
@@ -19,8 +22,8 @@ type Text string
 
 func (t *Text) String(params ...string) string {
 	text := string(*t)
-	for _, param := range params {
-		text = strings.Replace(text, "%s", param, 1)
+	for i, param := range params {
+		text = strings.Replace(text, fmt.Sprintf("{%d}", i+1), param, 1)
 	}
 	return text
 }

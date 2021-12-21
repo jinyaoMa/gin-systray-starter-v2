@@ -6,8 +6,8 @@ import (
 )
 
 type Config struct {
-	RoutersConfig routers.Config
-	TrayConfig    tray.Config
+	RoutersConfig *routers.Config
+	TrayConfig    *tray.Config
 }
 
 var config = &Config{

@@ -12,12 +12,12 @@ type Config struct {
 	CertDirCache string
 }
 
-func DefaultConfig() Config {
+func DefaultConfig() *Config {
 	certDirCache, err := os.Executable()
 	if err != nil {
 		log.Panic(err)
 	}
-	return Config{
+	return &Config{
 		HttpPort:     ":8080",
 		HttpsPort:    ":8443",
 		CertDirCache: filepath.Dir(certDirCache),

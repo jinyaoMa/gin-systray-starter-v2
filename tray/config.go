@@ -5,15 +5,15 @@ import (
 )
 
 type Config struct {
-	Locale          *locales.Dictionary
-	EnableSwagger2  bool
-	AutoStartServer bool
+	Locale        *locales.Dictionary
+	StartServer   bool
+	EnableSwagger bool
 }
 
-func DefaultConfig() Config {
-	return Config{
-		Locale:          locales.En(),
-		EnableSwagger2:  true,
-		AutoStartServer: true,
+func DefaultConfig() *Config {
+	return &Config{
+		Locale:        locales.En,
+		StartServer:   true,
+		EnableSwagger: true,
 	}
 }
