@@ -1,6 +1,6 @@
 # About This Template
 
-- [x] gin, [https://github.com/gin-gonic/gin](https://github.com/gin-gonic/gin)
+- [ ] gin, [https://github.com/gin-gonic/gin](https://github.com/gin-gonic/gin)
 - [ ] systray, [https://github.com/getlantern/systray](https://github.com/getlantern/systray)
 - [ ] air, [https://github.com/cosmtrek/air](https://github.com/cosmtrek/air)
 - [ ] gorm, [https://gorm.io/](https://gorm.io/)
