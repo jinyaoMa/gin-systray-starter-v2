@@ -1,14 +1,16 @@
 package main
 
-import "App/routers"
+import (
+	"App/routers"
+	"App/tray"
+)
 
 type Config struct {
-	routers.Config
+	RoutersConfig routers.Config
+	TrayConfig    tray.Config
 }
 
 var config = &Config{
-	Config: routers.Config{
-		HttpPort:  ":8080",
-		HttpsPort: ":8443",
-	},
+	RoutersConfig: routers.DefaultConfig(),
+	TrayConfig:    tray.DefaultConfig(),
 }

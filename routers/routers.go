@@ -26,7 +26,7 @@ func init() {
 	SetConfig(DefaultConfig())
 }
 
-func SetConfig(config *Config) {
+func SetConfig(config Config) {
 	manager := &autocert.Manager{
 		Prompt: autocert.AcceptTOS,
 		Cache:  autocert.DirCache(config.CertDirCache),
