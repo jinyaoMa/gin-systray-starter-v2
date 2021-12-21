@@ -2,8 +2,11 @@ package routers
 
 import (
 	"context"
+	"crypto/tls"
 	"log"
 	"net/http"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -24,74 +27,106 @@ func init() {
 }
 
 func SetConfig(config *Config) {
-	manager := autocert.Manager{
+	manager := &autocert.Manager{
 		Prompt: autocert.AcceptTOS,
 		Cache:  autocert.DirCache(config.CertDirCache),
 	}
 
 	httpServer = &http.Server{
-		Addr:    config.HttpPort,
-		Handler: manager.HTTPHandler(http.HandlerFunc(redirect)),
+		Addr: config.HttpPort,
+		Handler: manager.HTTPHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			target := "https://" + strings.Replace(r.Host, config.HttpPort, config.HttpsPort, 1) + r.RequestURI
+			http.Redirect(w, r, target, http.StatusMovedPermanently)
+		})),
 	}
-	httpServer.RegisterOnShutdown(onStop)
 
+	tlsConfig := manager.TLSConfig()
+	tlsConfig.GetCertificate = getSelfSignedOrLetsEncryptCert(manager)
 	httpsServer = &http.Server{
 		Addr:      config.HttpsPort,
-		TLSConfig: manager.TLSConfig(),
+		TLSConfig: tlsConfig,
 		Handler:   handler,
 	}
 }
 
-func Start() {
-	go startHttp()
-	go startHttps()
+func Start(callback func()) {
+	go startHttpServer()
+	go startHttpsServer(callback)
 }
 
 func StartWithLoop() {
-	go startHttp()
-	startHttps()
+	go startHttpServer()
+	startHttpsServer(nil)
 }
 
-func Stop() {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+func Stop(callback func()) {
+	stopHttpServer()
+	stopHttpsServer(callback)
+}
 
-	err := httpServer.Shutdown(ctx)
-	if err != nil {
-		log.Fatal("Http Server Shutdown:", err)
+func startHttpsServer(callback func()) (err error) {
+	err = httpsServer.ListenAndServeTLS("", "")
+	if err != nil && err != http.ErrServerClosed {
+		log.Fatalf("listen: %s\n", err)
+		return
 	}
-
-	log.Println("Http Server exiting!")
+	callback()
+	return nil
 }
 
-func onStop() {
+func stopHttpsServer(callback func()) (err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	err := httpsServer.Shutdown(ctx)
+	err = httpsServer.Shutdown(ctx)
 	if err != nil {
 		log.Fatal("Https Server Shutdown:", err)
+		return
 	}
 
 	log.Println("Https Server exiting!")
+	callback()
+	return nil
 }
 
-func startHttps() {
-	err := httpsServer.ListenAndServeTLS("", "")
+func startHttpServer() (err error) {
+	err = httpServer.ListenAndServe()
 	if err != nil && err != http.ErrServerClosed {
 		log.Fatalf("listen: %s\n", err)
+		return
 	}
+	return nil
 }
 
-func startHttp() {
-	err := httpServer.ListenAndServe()
-	if err != nil && err != http.ErrServerClosed {
-		log.Fatalf("listen: %s\n", err)
+func stopHttpServer() (err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	err = httpServer.Shutdown(ctx)
+	if err != nil {
+		log.Fatal("Http Server Shutdown:", err)
+		return
 	}
+
+	log.Println("Http Server exiting!")
+	return nil
 }
 
-func redirect(w http.ResponseWriter, req *http.Request) {
-	target := "https://" + req.Host + req.RequestURI
+func getSelfSignedOrLetsEncryptCert(certManager *autocert.Manager) func(hello *tls.ClientHelloInfo) (*tls.Certificate, error) {
+	return func(hello *tls.ClientHelloInfo) (*tls.Certificate, error) {
+		dirCache, ok := certManager.Cache.(autocert.DirCache)
+		if !ok {
+			dirCache = "certs"
+		}
 
-	http.Redirect(w, req, target, http.StatusMovedPermanently)
+		keyFile := filepath.Join(string(dirCache), hello.ServerName+".key")
+		crtFile := filepath.Join(string(dirCache), hello.ServerName+".crt")
+		certificate, err := tls.LoadX509KeyPair(crtFile, keyFile)
+		if err != nil {
+			log.Printf("%s\nFalling back to Letsencrypt\n", err)
+			return certManager.GetCertificate(hello)
+		}
+		log.Println("Loaded selfsigned certificate.")
+		return &certificate, err
+	}
 }

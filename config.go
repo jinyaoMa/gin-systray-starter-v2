@@ -8,8 +8,7 @@ type Config struct {
 
 var config = &Config{
 	Config: routers.Config{
-		HttpPort:     ":8080",
-		HttpsPort:    ":8081",
-		CertDirCache: ".cache",
+		HttpPort:  ":8080",
+		HttpsPort: ":8443",
 	},
 }

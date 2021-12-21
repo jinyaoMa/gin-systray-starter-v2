@@ -13,3 +13,8 @@
 - Go 1.17
 - NPM v8 (from Node.js)
 
+## Scripts
+
+- `build:certs`: create self-signed certificate for TLS
+- `build:run`: compile App to folder `/build` with filename `App.exe`
+

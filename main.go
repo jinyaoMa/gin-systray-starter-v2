@@ -1,5 +1,7 @@
 package main
 
-func main() {
+import "App/routers"
 
+func main() {
+	routers.StartWithLoop()
 }
