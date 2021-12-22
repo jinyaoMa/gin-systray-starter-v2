@@ -4,7 +4,8 @@
     "serve:certs": "openssl req -x509 -nodes -days 3 -newkey rsa:2048 -keyout air/localhost.key -out air/localhost.crt -subj \"/C=CN/ST=GD/L=Github/O=App/OU=Certs/CN=localhost/emailAddress=jinyao.ma@outlook.com\"",
     "build:certs": "openssl req -x509 -nodes -days 3 -newkey rsa:2048 -keyout build/localhost.key -out build/localhost.crt -subj \"/C=CN/ST=GD/L=Github/O=App/OU=Certs/CN=localhost/emailAddress=jinyao.ma@outlook.com\"",
     "build:swag": "swag init -g routers/routes.go -o ./swagger",
-    "build:run": "go build -o ./build/App.exe . && cd build && App.exe"
+    "build:run": "go build -o ./build/App.exe . && cd build && App.exe",
+    "build": "go build -tags=jsoniter -ldflags \"-H=windowsgui\" -o ./build/App.exe ."
   },
   "author": "jinyaoMa",
   "license": "MIT"

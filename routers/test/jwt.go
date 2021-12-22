@@ -4,6 +4,7 @@ import (
 	"App/utils"
 	"crypto/rand"
 	"crypto/rsa"
+	"crypto/x509"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,6 +27,11 @@ func TestJWT() gin.HandlerFunc {
 			})
 			return
 		}
+
+		privateBytes := x509.MarshalPKCS1PrivateKey(key)
+		publicBytes := x509.MarshalPKCS1PublicKey(&key.PublicKey)
+		x509.ParsePKCS1PrivateKey(privateBytes)
+		x509.ParsePKCS1PublicKey(publicBytes)
 
 		token, err := utils.EncryptClaims(&utils.Claims{
 			RegisteredClaims: jwt.RegisteredClaims{},

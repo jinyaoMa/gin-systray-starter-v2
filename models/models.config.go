@@ -32,9 +32,9 @@ func DefaultSqliteConfig() *Config {
 		Driver:   DriverSqlite,
 		Host:     "",
 		Port:     0,
-		User:     "admin",
-		Password: "admin",
+		User:     "",
+		Password: "",
 		Database: filepath.Join(filepath.Dir(path), "database.db"),
-		Tail:     "_auth_crypt=sha1",
+		Tail:     "",
 	}
 }

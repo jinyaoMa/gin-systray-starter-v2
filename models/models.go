@@ -32,17 +32,13 @@ func Run() {
 	case DriverPostgres:
 		initPostgres()
 	}
+
+	db.AutoMigrate(Record{})
 }
 
 func initSqlite() {
 	var err error
-	var dsn string
-	if config.User == "" {
-		dsn = config.Database
-	} else {
-		dsn = fmt.Sprintf("%s?_auth&_auth_user=%s&_auth_pass=%s&%s", config.Database, config.User, config.Password, config.Tail)
-	}
-	db, err = gorm.Open(sqlite.Open(dsn), &gorm.Config{})
+	db, err = gorm.Open(sqlite.Open(config.Database), &gorm.Config{})
 	if err != nil {
 		logger.Models.Fatalf("database (sqlite) connect error %v\n", err)
 	}

@@ -30,5 +30,6 @@ go mod tidy
 - `serve:certs`: generate self-signed certificate to folder `/air` (development)
 - `build:certs`: generate self-signed certificate to folder `/build` (production)
 - `build:swag`: generate swagger files to folder `/swagger`
-- `build:run`: compile App to folder `/build` with filename `App.exe`
+- `build:run`: compile App to folder `/build` with filename `App.exe`, then run it
+- `build`: compile App to folder `/build` with filename `App.exe` and ldflags `-H=windowsgui`
 
