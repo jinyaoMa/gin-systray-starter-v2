@@ -16,5 +16,6 @@
 ## Scripts
 
 - `build:certs`: create self-signed certificate for TLS
+- `build:swag`: generate swagger files to folder `/swagger`
 - `build:run`: compile App to folder `/build` with filename `App.exe`
 
