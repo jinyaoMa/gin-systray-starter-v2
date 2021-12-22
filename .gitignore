@@ -13,3 +13,8 @@
 
 package-lock.json
 yarn.lock
+
+air/*.crt
+air/*.key
+build/*.crt
+build/*.key
