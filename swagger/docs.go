@@ -45,6 +45,9 @@ var doc = `{
                 "responses": {
                     "200": {
                         "description": "{ token }"
+                    },
+                    "404": {
+                        "description": "{ error }"
                     }
                 }
             }
