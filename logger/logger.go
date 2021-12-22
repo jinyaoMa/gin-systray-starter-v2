@@ -11,6 +11,7 @@ var config *Config
 var (
 	Tray    *log.Logger
 	Routers *log.Logger
+	Models  *log.Logger
 )
 
 func init() {
@@ -24,33 +25,30 @@ func Setup(conf *Config) {
 
 func handleConfig() {
 	if config.IsDev {
-		Tray = log.New(os.Stdout,
-			"TRAY: ",
-			log.Ldate|log.Ltime|log.Lshortfile)
-
-		Routers = log.New(os.Stdout,
-			"ROUTERS: ",
-			log.Ldate|log.Ltime|log.Lshortfile)
+		Tray = newLog(os.Stdout, "TRAY: ")
+		Routers = newLog(os.Stdout, "ROUTERS: ")
+		Models = newLog(os.Stdout, "MODELS: ")
 
 	} else {
-		logTray, err := os.OpenFile(config.LogTrayPath,
-			os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-		if err != nil {
-			panic("Failed to open error log (tray) file")
-		}
+		logTray := getLogFile(config.LogTrayPath)
+		logRouters := getLogFile(config.LogRoutersPath)
+		logModels := getLogFile(config.LogModelsPath)
 
-		logRouters, err := os.OpenFile(config.LogRoutersPath,
-			os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-		if err != nil {
-			panic("Failed to open error log (routers) file")
-		}
-
-		Tray = log.New(io.MultiWriter(logTray, os.Stdout),
-			"TRAY: ",
-			log.Ldate|log.Ltime|log.Lshortfile)
-
-		Routers = log.New(io.MultiWriter(logRouters, os.Stdout),
-			"ROUTERS: ",
-			log.Ldate|log.Ltime|log.Lshortfile)
+		Tray = newLog(io.MultiWriter(logTray, os.Stdout), "TRAY: ")
+		Routers = newLog(io.MultiWriter(logRouters, os.Stdout), "ROUTERS: ")
+		Models = newLog(io.MultiWriter(logModels, os.Stdout), "MODELS: ")
 	}
+}
+
+func newLog(out io.Writer, prefix string) *log.Logger {
+	return log.New(out, prefix, log.Ldate|log.Ltime|log.Lshortfile)
+}
+
+func getLogFile(path string) (file *os.File) {
+	var err error
+	file, err = os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		panic("Failed to open log: " + path)
+	}
+	return
 }

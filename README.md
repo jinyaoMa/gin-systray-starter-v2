@@ -3,7 +3,7 @@
 - [x] gin, [https://github.com/gin-gonic/gin](https://github.com/gin-gonic/gin)
 - [x] systray, [https://github.com/getlantern/systray](https://github.com/getlantern/systray)
 - [X] air, [https://github.com/cosmtrek/air](https://github.com/cosmtrek/air)
-- [ ] gorm, [https://gorm.io/](https://gorm.io/)
+- [x] gorm, [https://gorm.io/](https://gorm.io/)
 - [x] swagger, [https://github.com/swaggo/gin-swagger](https://github.com/swaggo/gin-swagger)
 - [ ] jwt, [https://github.com/golang-jwt/jwt](https://github.com/golang-jwt/jwt)
 
