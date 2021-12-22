@@ -13,6 +13,17 @@
 - Go 1.17
 - NPM v8 (from Node.js)
 
+## Setup
+
+``` bash
+# install air cli
+curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+# install swag cli
+go install github.com/swaggo/swag/cmd/swag@latest
+# install go dependencies
+go mod tidy
+```
+
 ## Scripts
 
 - `build:certs`: create self-signed certificate for TLS
