@@ -1,0 +1,29 @@
+info:
+  contact:
+    name: Github Issues
+    url: https://github.com/jinyaoMa/gin-systray-starter-v2/issues
+  description: '"Template for Go application with Gin and System Tray"'
+  license:
+    name: MIT
+    url: https://github.com/jinyaoMa/gin-systray-starter-v2/blob/main/LICENSE
+  title: gin-systray-starter-v2
+  version: 2.0.0
+paths:
+  /test/jwt:
+    get:
+      consumes:
+      - text/plain
+      description: Test JWT
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{ token }'
+      tags:
+      - Test
+securityDefinitions:
+  BearerIdAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -1,0 +1,44 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "\"Template for Go application with Gin and System Tray\"",
+        "title": "gin-systray-starter-v2",
+        "contact": {
+            "name": "Github Issues",
+            "url": "https://github.com/jinyaoMa/gin-systray-starter-v2/issues"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://github.com/jinyaoMa/gin-systray-starter-v2/blob/main/LICENSE"
+        },
+        "version": "2.0.0"
+    },
+    "paths": {
+        "/test/jwt": {
+            "get": {
+                "description": "Test JWT",
+                "consumes": [
+                    "text/plain"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Test"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ token }"
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerIdAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

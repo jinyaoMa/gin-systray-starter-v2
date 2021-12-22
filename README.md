@@ -4,7 +4,7 @@
 - [x] systray, [https://github.com/getlantern/systray](https://github.com/getlantern/systray)
 - [ ] air, [https://github.com/cosmtrek/air](https://github.com/cosmtrek/air)
 - [ ] gorm, [https://gorm.io/](https://gorm.io/)
-- [ ] swagger, [https://github.com/swaggo/gin-swagger](https://github.com/swaggo/gin-swagger)
+- [x] swagger, [https://github.com/swaggo/gin-swagger](https://github.com/swaggo/gin-swagger)
 - [ ] jwt, [https://github.com/golang-jwt/jwt](https://github.com/golang-jwt/jwt)
 
 ## Environment
