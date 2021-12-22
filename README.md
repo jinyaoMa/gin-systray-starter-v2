@@ -2,7 +2,7 @@
 
 - [x] gin, [https://github.com/gin-gonic/gin](https://github.com/gin-gonic/gin)
 - [x] systray, [https://github.com/getlantern/systray](https://github.com/getlantern/systray)
-- [ ] air, [https://github.com/cosmtrek/air](https://github.com/cosmtrek/air)
+- [X] air, [https://github.com/cosmtrek/air](https://github.com/cosmtrek/air)
 - [ ] gorm, [https://gorm.io/](https://gorm.io/)
 - [x] swagger, [https://github.com/swaggo/gin-swagger](https://github.com/swaggo/gin-swagger)
 - [ ] jwt, [https://github.com/golang-jwt/jwt](https://github.com/golang-jwt/jwt)
@@ -26,7 +26,9 @@ go mod tidy
 
 ## Scripts
 
-- `build:certs`: create self-signed certificate for TLS
+- `serve:air`: run air for development
+- `serve:certs`: generate self-signed certificate to folder `/air` (development)
+- `build:certs`: generate self-signed certificate to folder `/build` (production)
 - `build:swag`: generate swagger files to folder `/swagger`
 - `build:run`: compile App to folder `/build` with filename `App.exe`
 
