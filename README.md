@@ -6,6 +6,7 @@
 - [x] gorm, [https://gorm.io/](https://gorm.io/)
 - [x] swagger, [https://github.com/swaggo/gin-swagger](https://github.com/swaggo/gin-swagger)
 - [x] jwt, [https://github.com/golang-jwt/jwt](https://github.com/golang-jwt/jwt)
+- [x] ini, [https://github.com/go-ini/ini](https://github.com/go-ini/ini)
 
 ## Environment
 
@@ -26,10 +27,25 @@ go mod tidy
 
 ## Scripts
 
+- `ready:swag`: generate swagger files to folder `/swagger`
 - `serve:air`: run air for development
 - `serve:certs`: generate self-signed certificate to folder `/air` (development)
 - `build:certs`: generate self-signed certificate to folder `/build` (production)
-- `build:swag`: generate swagger files to folder `/swagger`
 - `build:run`: compile App to folder `/build` with filename `App.exe`, then run it
 - `build`: compile App to folder `/build` with filename `App.exe` and ldflags `-H=windowsgui`
+
+## Path Structure
+
+- `/air`: generated files for development
+  - `.air.toml`: air cli config
+- `/build`: generated files for production
+- `/logger`: logger for `models`, `routers` and `tray`
+- `/models`: database connection and table models
+- `/routers`: define server and route groups
+- `/swagger`: generated files for swagger
+- `/tray`: define system tray
+
+> `main.config.go` - all configs combined for the whole App
+
+> Other `*.config.go` files are configs for different packages
 

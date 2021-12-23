@@ -17,6 +17,11 @@ yarn.lock
 air/*.crt
 air/*.key
 air/*.db
+air/*.ini
+air/*.log
+air/log.*.txt
 build/*.crt
 build/*.key
 build/*.db
+build/*.ini
+build/log.*.txt

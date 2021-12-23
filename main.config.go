@@ -11,6 +11,7 @@ import (
 )
 
 type Config struct {
+	IniPath string `ini:"-"`
 	Logger  *logger.Config
 	Tray    *tray.Config
 	Routers *routers.Config
@@ -23,6 +24,7 @@ func GetConfig() *Config {
 		panic(err)
 	}
 	return &Config{
+		IniPath: filepath.Join(filepath.Dir(path), "App.ini"),
 		Logger: &logger.Config{
 			IsDev:          false,
 			LogTrayPath:    filepath.Join(filepath.Dir(path), "log.tray.txt"),
