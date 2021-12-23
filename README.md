@@ -13,6 +13,7 @@
 - Windows 10 x64
 - Go 1.17
 - NPM v8 (from Node.js)
+- Git Bash
 
 ## Setup
 
