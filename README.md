@@ -14,6 +14,7 @@
 - Go 1.17
 - NPM v8 (from Node.js)
 - Git Bash
+- Database from localhost
 
 ## Setup
 
