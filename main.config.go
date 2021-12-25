@@ -5,7 +5,6 @@ import (
 	"App/models"
 	"App/routers"
 	"App/tray"
-	"App/tray/locales"
 	"os"
 	"path/filepath"
 )
@@ -25,31 +24,9 @@ func GetConfig() *Config {
 	}
 	return &Config{
 		IniPath: filepath.Join(filepath.Dir(path), "App.ini"),
-		Logger: &logger.Config{
-			IsDev:          false,
-			LogTrayPath:    filepath.Join(filepath.Dir(path), "log.tray.txt"),
-			LogRoutersPath: filepath.Join(filepath.Dir(path), "log.routers.txt"),
-			LogModelsPath:  filepath.Join(filepath.Dir(path), "log.models.txt"),
-		},
-		Tray: &tray.Config{
-			Locale:      locales.Zh,
-			StartServer: true,
-			EnableSwag:  true,
-		},
-		Routers: &routers.Config{
-			IsDev:   false,
-			Port:    18080,
-			PortTls: 18443,
-			CertDir: filepath.Dir(path),
-		},
-		Models: &models.Config{
-			Driver:   models.DriverSqlite,
-			Host:     "",
-			Port:     0,
-			User:     "",
-			Password: "",
-			Database: filepath.Join(filepath.Dir(path), "database.db"),
-			Tail:     "",
-		},
+		Logger:  logger.DefaultConfig(),
+		Tray:    tray.DefaultConfig(),
+		Routers: routers.DefaultConfig(),
+		Models:  models.DefaultSqliteConfig(),
 	}
 }

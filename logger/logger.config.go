@@ -19,8 +19,8 @@ func DefaultConfig() *Config {
 	}
 	return &Config{
 		IsDev:          true,
-		LogTrayPath:    filepath.Join(filepath.Dir(path), "log.tray.txt"),
-		LogRoutersPath: filepath.Join(filepath.Dir(path), "log.routers.txt"),
-		LogModelsPath:  filepath.Join(filepath.Dir(path), "log.models.txt"),
+		LogTrayPath:    filepath.Join(filepath.Dir(path), "tray.log"),
+		LogRoutersPath: filepath.Join(filepath.Dir(path), "routers.log"),
+		LogModelsPath:  filepath.Join(filepath.Dir(path), "models.log"),
 	}
 }

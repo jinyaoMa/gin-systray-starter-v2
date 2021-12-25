@@ -19,10 +19,6 @@ func init() {
 	config = DefaultSqliteConfig()
 }
 
-func SetConfig(conf *Config) {
-	config = conf
-}
-
 func Run() {
 	switch config.Driver {
 	case DriverSqlite:
@@ -33,7 +29,11 @@ func Run() {
 		initPostgres()
 	}
 
-	db.AutoMigrate(Record{})
+	db.AutoMigrate(&Record{})
+}
+
+func SetConfig(conf *Config) {
+	config = conf
 }
 
 func initSqlite() {
