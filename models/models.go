@@ -3,11 +3,13 @@ package models
 import (
 	"App/logger"
 	"fmt"
+	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	gormLogger "gorm.io/gorm/logger"
 )
 
 var (
@@ -38,7 +40,9 @@ func SetConfig(conf *Config) {
 
 func initSqlite() {
 	var err error
-	db, err = gorm.Open(sqlite.Open(config.Database), &gorm.Config{})
+	db, err = gorm.Open(sqlite.Open(config.Database), &gorm.Config{
+		Logger: getSqlLogger(),
+	})
 	if err != nil {
 		logger.Models.Fatalf("database (sqlite) connect error %v\n", err)
 	}
@@ -56,7 +60,9 @@ func initMysql() {
 		config.Port,
 		config.Database,
 		config.Tail)
-	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+		Logger: getSqlLogger(),
+	})
 	if err != nil {
 		logger.Models.Fatalf("database (mysql) connect error %v\n", err)
 	}
@@ -74,11 +80,25 @@ func initPostgres() {
 		config.Database,
 		config.Port,
 		config.Tail)
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+		Logger: getSqlLogger(),
+	})
 	if err != nil {
 		logger.Models.Fatalf("database (postgres) connect error %v\n", err)
 	}
 	if db.Error != nil {
 		logger.Models.Fatalf("database (postgres) error %v\n", db.Error)
 	}
+}
+
+func getSqlLogger() gormLogger.Interface {
+	return gormLogger.New(
+		logger.Models,
+		gormLogger.Config{
+			SlowThreshold:             time.Second,
+			LogLevel:                  gormLogger.Error,
+			IgnoreRecordNotFoundError: true,
+			Colorful:                  true,
+		},
+	)
 }
