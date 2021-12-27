@@ -109,7 +109,7 @@ func handleConfig() {
 func startServer() {
 	err := server.ListenAndServe()
 	if err != nil && err != http.ErrServerClosed {
-		logger.Routers.Fatalf("Server listen: %s\n", err)
+		logger.Routers.Fatalf("Server listen: %v\n", err)
 		return
 	}
 }
@@ -120,7 +120,7 @@ func stopServer() (err error) {
 
 	err = server.Shutdown(ctx)
 	if err != nil {
-		logger.Routers.Fatalf("Server with port %d shutdown: %s\n", config.Port, err)
+		logger.Routers.Fatalf("Server with port %d shutdown: %v\n", config.Port, err)
 		return
 	}
 
@@ -131,7 +131,7 @@ func stopServer() (err error) {
 func startServerTls() {
 	err := serverTls.ListenAndServeTLS("", "")
 	if err != nil && err != http.ErrServerClosed {
-		logger.Routers.Fatalf("Server (TLS) listen: %s\n", err)
+		logger.Routers.Fatalf("Server (TLS) listen: %v\n", err)
 		return
 	}
 }
@@ -142,7 +142,7 @@ func stopServerTls() (err error) {
 
 	err = serverTls.Shutdown(ctx)
 	if err != nil {
-		logger.Routers.Fatalf("Server (TLS) with port %d shutdown: %s\n", config.PortTls, err)
+		logger.Routers.Fatalf("Server (TLS) with port %d shutdown: %v\n", config.PortTls, err)
 		return
 	}
 
